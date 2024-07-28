@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Cartoon from "./Cartoon";
 import AddNew from "./AddNew";
+import "./Styles/CartoonList.css"
 
-const defaultImageUrl = "https://i.pinimg.com/736x/23/29/4c/23294c4e4bf92e54cad510e1ba1e0554.jpg";
+const defaultImageUrl =
+  "https://i.pinimg.com/736x/23/29/4c/23294c4e4bf92e54cad510e1ba1e0554.jpg";
 
 const CartoonList = () => {
   let [cartoons, setCartoons] = useState([]);
@@ -22,34 +24,34 @@ const CartoonList = () => {
   }, []);
 
   //uklonjen crtani iz baze odmah uklanje i iz liste za prikaz
-  const handleRemove = (cid)=> {
-    setCartoons(cartoons.filter(cartoon => cartoon.id !== cid));
-  }
+  const handleRemove = (cid) => {
+    setCartoons(cartoons.filter((cartoon) => cartoon.id !== cid));
+  };
 
   //dodati crtani se odmah prikazuje
-  const handleAdd = (newCartoon)=> {
-    setCartoons([...cartoons,newCartoon]);
-  }
+  const handleAdd = (newCartoon) => {
+    setCartoons([...cartoons, newCartoon]);
+  };
 
   return (
     <>
-    <AddNew onAdd={handleAdd}/>
-    <div className="cartoon-list">
-      {cartoons.map((cartoon) => {
-        //all array items (objects) are mapped in React Component because we can not render object
-        return (
-          <Cartoon
-            title={cartoon.title}
-            img={cartoon?.img ?? defaultImageUrl}
-            year={cartoon.year}
-            review={cartoon.review}
-            key={cartoon.id}
-            cid={cartoon.id}
-            onRemove={handleRemove}
-          />
-        );
-      })}
-    </div>
+      <AddNew onAdd={handleAdd} />
+      <div className="cartoon-list">
+        {cartoons.map((cartoon) => {
+          //all array items (objects) are mapped in React Component because we can not render object
+          return (
+            <Cartoon
+              title={cartoon.title}
+              img={cartoon?.img ?? defaultImageUrl}
+              year={cartoon.year}
+              review={cartoon.review}
+              key={cartoon.id}
+              cid={cartoon.id}
+              onRemove={handleRemove}
+            />
+          );
+        })}
+      </div>
     </>
   );
 };
