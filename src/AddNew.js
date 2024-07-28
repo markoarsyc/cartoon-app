@@ -1,38 +1,39 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./Styles/AddNew.css";
 
-const AddNew = () => {
+const AddNew = ({onAdd}) => {
   const [cartoon, setCartoon] = useState(
     {title:'', year:"",img:""}
   );
-  const [cartoons,setCartoons] = useState([]);
 
+  //controlled form input
   const handleChange = (e) => {
     setCartoon({...cartoon, [e.target.name] : e.target.value});
   }
 
-  const handleSubmit = (e) =>  {
+  //adding new cartoon
+  const handleSubmit = async (e) =>  {
     e.preventDefault();
-    setCartoons((prevCartoons)=>{
-      const updatedCartoons = [...prevCartoons,cartoon];
-      console.log(updatedCartoons);
-      return updatedCartoons;
-    });
+    try {
+      const response = await fetch("http://localhost:3003/cartoons",{
+        method:"POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(cartoon)
+      });
+      if (response.ok) {
+        onAdd(await response.json());
+        setCartoon({ title: "", year: "", img: "" }); // Reset the form
+      } else {
+        console.log("Error: Can not add new cartoon");
+      }
+    } catch (error) {
+      console.error("Error adding cartoon:", error);
+    }
+
     
   }
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("./cartoons.json");
-        const cartoons = await response.json();
-        setCartoons(cartoons);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
 
   return (
     <div className="add-new">
