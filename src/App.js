@@ -1,24 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
+import AddNew from "./AddNew";
+import "./Styles/App.css";
+import CartoonList from "./CartoonList";
+import Description from "./Description";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Description />
+      <AddNew />
+      <CartoonList />
+      <footer> Owned by Kaća and Marko </footer>
+    </>
   );
 }
 
