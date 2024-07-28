@@ -1,25 +1,24 @@
 .add-new {
-    text-align: center;
-    border: 0.2rem solid #676b6e;
-    border-radius: 1rem;
-    width:40%;
-    color:#676b6e;
-    margin:auto;
-    padding:0.2rem;
+  text-align: center;
+  border: 0.2rem solid #676b6e;
+  border-radius: 1rem;
+  width: 40%;
+  color: #676b6e;
+  margin: auto;
+  padding: 0.2rem;
 }
 
-
 form {
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
 }
 
 button {
-  padding:0.3rem;
-  color:#676b6e;
+  padding: 0.3rem;
+  color: #676b6e;
   background-color: rgb(195, 223, 223);
   border: 1px solid #676b6e;
   border-radius: 0.2rem;
@@ -29,5 +28,5 @@ button {
 }
 
 input {
-    border-radius:0.5rem;
+  border-radius: 0.5rem;
 }

@@ -10,7 +10,7 @@ const CartoonList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("./cartoons.json");
+        const response = await fetch("http://localhost:3003/cartoons");
         const cartoons = await response.json();
         setCartoons(cartoons);
       } catch (error) {
