@@ -12,16 +12,12 @@ const AddNew = () => {
 
   const addCartoon = async (e) => {
     try {
-      const response = await axios.post("http://localhost:3006/api/cartoons",cartoon, {
+      await axios.post("http://localhost:3006/api/cartoons",cartoon, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-      if (response.ok) {
-        setCartoon({ title: "", year: "", imgUrl: "" }); // Reset the form
-      } else {
-        console.log("Error: Can not add new cartoon");
-      }
+      setCartoon({ title: "", year: "", imgUrl: "" }); // Reset the form
     } catch (error) {
       console.log(error);
     }
