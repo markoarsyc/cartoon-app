@@ -1,19 +1,17 @@
 import React, { useState } from "react";
 import "./Styles/AddNew.css";
 
-const AddNew = ({ onAdd }) => {
-  const [cartoon, setCartoon] = useState({ title: "", year: "", img: "" });
+const AddNew = () => {
+  const [cartoon, setCartoon] = useState({ title: "", year: "", imgUrl: "" });
 
   //controlled form input
   const handleChange = (e) => {
     setCartoon({ ...cartoon, [e.target.name]: e.target.value });
   };
 
-  //adding new cartoon
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const addCartoon = async (e) => {
     try {
-      const response = await fetch("http://localhost:3003/cartoons", {
+      const response = await fetch("http://localhost:3006/api/cartoons", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -21,20 +19,17 @@ const AddNew = ({ onAdd }) => {
         body: JSON.stringify(cartoon),
       });
       if (response.ok) {
-        onAdd(await response.json());
-        setCartoon({ title: "", year: "", img: "" }); // Reset the form
+        setCartoon({ title: "", year: "", imgUrl: "" }); // Reset the form
       } else {
         console.log("Error: Can not add new cartoon");
       }
-    } catch (error) {
-      console.error("Error adding cartoon:", error);
-    }
+    } catch (error) {}
   };
 
   return (
     <div className="add-new">
       <h2> Add new memory! </h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={addCartoon}>
         <label htmlFor="TITLE"> Title: </label>
         <input
           type="text"
@@ -55,8 +50,8 @@ const AddNew = ({ onAdd }) => {
         <input
           type="text"
           id="IMG"
-          name="img"
-          value={cartoon.img}
+          name="imgUrl"
+          value={cartoon.imgUrl}
           onChange={handleChange}
         />
         <button type="submit"> Submit </button>

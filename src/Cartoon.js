@@ -1,14 +1,7 @@
 import React, { useState } from "react";
 import "./Styles/Cartoon.css";
 
-const Cartoon = ({
-  title,
-  img,
-  year,
-  review: initialReview,
-  cid,
-  onRemove,
-}) => {
+const Cartoon = ({ title, imgUrl, year, review: initialReview, id }) => {
   //props must be written as object in {} --> destructuring
 
   const defaultImageUrl =
@@ -16,30 +9,30 @@ const Cartoon = ({
 
   let [btnText, setBtnText] = useState("Show review");
   let [isShown, setIsShown] = useState(false);
-  let [imgSrc, setImgSrc] = useState(img || defaultImageUrl);
+  let [imgSrc, setImgSrc] = useState(imgUrl);
   let [reviewText, setReviewText] = useState("");
   let [review, setReview] = useState(initialReview);
 
   const handleRemove = async () => {
     try {
-      const response = await fetch(`http://localhost:3003/cartoons/${cid}`, {
+      const response = await fetch(`http://localhost:3006/api/cartoons/${id}`, {
         method: "DELETE",
       });
       if (response.ok) {
-        onRemove(cid);
+        console.log("Cartoon removed");
       } else {
         console.log("Error removing cartoon");
       }
     } catch (error) {
-      console.log("Error removing cartoon");
+      console.log(error);
     }
   };
 
   const handleAddReview = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:3003/cartoons/${cid}`, {
-        method: "PATCH",
+      const response = await fetch(`http://localhost:3006/api/cartoons/${id}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -59,10 +52,11 @@ const Cartoon = ({
     }
   };
 
-  const handleDeleteReview = async () => {
+  const handleDeleteReview = async (e) => {
+    e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:3003/cartoons/${cid}`, {
-        method: "PATCH",
+      const response = await fetch(`http://localhost:3006/api/cartoons/${id}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -103,10 +97,11 @@ const Cartoon = ({
             {btnText}{" "}
           </button>
         )}
-
-        <button className="remove-btn" onClick={handleRemove}>
-          Remove cartoon
-        </button>
+        <form onSubmit={handleRemove}>
+          <button className="remove-btn" type="submit">
+            Remove cartoon
+          </button>
+        </form>
       </div>
       <div className="review-prompt">
         <form onSubmit={handleAddReview}>
@@ -129,8 +124,7 @@ const Cartoon = ({
             <p> {review} </p>
             {review && (
               <button className="remove-btn" onClick={handleDeleteReview}>
-                {" "}
-                Delete review{" "}
+                Delete review
               </button>
             )}
           </div>
