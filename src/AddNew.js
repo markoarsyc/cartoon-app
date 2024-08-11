@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Styles/AddNew.css";
+import axios from "axios";
 
 const AddNew = () => {
   const [cartoon, setCartoon] = useState({ title: "", year: "", imgUrl: "" });
@@ -11,19 +12,19 @@ const AddNew = () => {
 
   const addCartoon = async (e) => {
     try {
-      const response = await fetch("http://localhost:3006/api/cartoons", {
-        method: "POST",
+      const response = await axios.post("http://localhost:3006/api/cartoons",cartoon, {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(cartoon),
       });
       if (response.ok) {
         setCartoon({ title: "", year: "", imgUrl: "" }); // Reset the form
       } else {
         console.log("Error: Can not add new cartoon");
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

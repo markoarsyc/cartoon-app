@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Styles/Cartoon.css";
+import axios from "axios";
 
 const Cartoon = ({ title, imgUrl, year, review: initialReview, id }) => {
   //props must be written as object in {} --> destructuring
@@ -7,17 +8,17 @@ const Cartoon = ({ title, imgUrl, year, review: initialReview, id }) => {
   const defaultImageUrl =
     "https://i.pinimg.com/736x/23/29/4c/23294c4e4bf92e54cad510e1ba1e0554.jpg";
 
-  let [btnText, setBtnText] = useState("Show review");
-  let [isShown, setIsShown] = useState(false);
-  let [imgSrc, setImgSrc] = useState(imgUrl);
-  let [reviewText, setReviewText] = useState("");
-  let [review, setReview] = useState(initialReview);
+  const [btnText, setBtnText] = useState("Show review");
+  const [isShown, setIsShown] = useState(false);
+  const [imgSrc, setImgSrc] = useState(imgUrl);
+  const [reviewText, setReviewText] = useState("");
+  const [review, setReview] = useState(initialReview);
 
   const handleRemove = async () => {
     try {
-      const response = await fetch(`http://localhost:3006/api/cartoons/${id}`, {
-        method: "DELETE",
-      });
+      const response = await axios.delete(
+        `http://localhost:3006/api/cartoons/${id}`
+      );
       if (response.ok) {
         console.log("Cartoon removed");
       } else {
@@ -31,22 +32,20 @@ const Cartoon = ({ title, imgUrl, year, review: initialReview, id }) => {
   const handleAddReview = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:3006/api/cartoons/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ review: reviewText }),
-      });
-      if (response.ok) {
-        const updatedCartoon = await response.json(); // Dodato da se dobije ažurirani objekat
-        setReview(updatedCartoon.review); // Ažuriranje stanja sa novom recenzijom
-        setReviewText("");
-        setIsShown(true);
-        setBtnText("Hide review");
-      } else {
-        console.log("Error adding review");
-      }
+      const response = await axios.put(
+        `http://localhost:3006/api/cartoons/${id}`,
+        { review: reviewText },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const updatedCartoon = response.data; // Podaci iz odgovora
+      setReview(updatedCartoon.review); // Ažuriranje stanja sa novom recenzijom
+      setReviewText("");
+      setIsShown(true);
+      setBtnText("Hide review");
     } catch (error) {
       console.log("Error adding review");
     }
@@ -55,19 +54,13 @@ const Cartoon = ({ title, imgUrl, year, review: initialReview, id }) => {
   const handleDeleteReview = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:3006/api/cartoons/${id}`, {
-        method: "PUT",
+      await axios.put(`http://localhost:3006/api/cartoons/${id}`,{ review: "" }, {
         headers: {
           "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ review: "" }),
+        }
       });
-      if (response.ok) {
-        setReview(""); // Ažuriranje stanja sa praznom recenzijom
-        setIsShown(false);
-      } else {
-        console.log("Error deleting review");
-      }
+      setReview("");
+      setIsShown(false);
     } catch (error) {
       console.log("Error deleting review");
     }

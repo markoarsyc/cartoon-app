@@ -1,24 +1,24 @@
 import React, { useEffect, useState } from "react";
 import Cartoon from "./Cartoon";
 import AddNew from "./AddNew";
-import "./Styles/CartoonList.css"
+import "./Styles/CartoonList.css";
+import axios from "axios";
 
 const CartoonList = () => {
-  let [cartoons, setCartoons] = useState([]);
+  const [cartoons, setCartoons] = useState([]);
 
+  const getCartoons = async ()=> {
+    try {
+      const response = await axios.get("http://localhost:3006/api/cartoons");
+      setCartoons(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  
   useEffect(()=>{
-    const fetchData = async ()=> {
-      try {
-        const response = await fetch("http://localhost:3006/api/cartoons");
-        const cartoons = await response.json();
-        setCartoons(cartoons);
-        console.log(cartoons);
-      } catch (error) {
-        console.log(error)
-      }
-    };
-    fetchData();
-  },[]);
+    getCartoons();
+  },[])
 
   return (
     <>
