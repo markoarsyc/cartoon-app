@@ -25,6 +25,13 @@ button {
   margin: 0.1rem;
   font-weight: bold;
   border-radius: 0.5rem;
+  cursor:pointer;
+}
+
+button:hover {
+  background-color: #676b6e;
+  color: white;
+  border-color: #50575a;
 }
 
 input {

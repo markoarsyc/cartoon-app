@@ -52,4 +52,18 @@ footer {
 .cartoon .remove-btn {
   background-color: #eb3434;
   color: aliceblue;
+  cursor: pointer;
+}
+
+/* Hover efekat za dugme sa klasom .show-review */
+.cartoon .show-review:hover {
+  background-color: #676b6e;
+  color: white;
+  border-color: #50575a;
+}
+
+/* Hover efekat za dugme sa klasom .remove-btn */
+.cartoon .remove-btn:hover {
+  background-color: #c02b2b;
+  color: white;
 }
